@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>title</title>
+        <style>
+            #draw {
+                height: 300px;
+                width: 600px;
+                background-color: gray;
+            }
+            /* .hidden {
+                display: ;
+            } */
+        </style>
+
+        <div class="hidden">
+            <img class="asset" id="grapefruit" src="grapefruit.png" />
+            <img class="asset" id="lemon" src="lemon.png" />
+            <img class="asset" id="lime" src="lime.png" />
+            <img class="asset" id="orange" src="orange.png" />
+        </div>
+    </head>
+    <body>
+        <select name="fruit" id="selector">
+            <option value="lemon">Lemon</option>
+            <option value="lime">Lime</option>
+            <option value="grapefruit">GrapeFruit</option>
+            <option value="orange">Orange</option>
+        </select>
+        <input type="number" id="ripeness" />
+        <p>hi</p>
+        <canvas id="draw"></canvas>
+
+        <script>
+            let lookup = {
+                lemon: "yellow",
+                lime: "green",
+                grapefruit: "pink",
+                orange: "orange",
+            };
+
+            let selector = document.getElementById("selector");
+
+            selector.onchange = (event) => {
+                console.log(event);
+                let data = event.target.value;
+                let color = lookup[data];
+
+                console.log(data);
+                console.log(color);
+                let canvas = document.getElementById("draw");
+
+                canvas.style.backgroundColor = color;
+
+                let context = canvas.getContext("2d");
+                context.reset();
+                let image = document.getElementById(data);
+                context.drawImage(
+                    image,
+                    0,
+                    0,
+                    image.offsetWidth / 4,
+                    image.offsetHeight / 4
+                );
+            };
+
+            let ripeness = document.getElementById("ripeness");
+            ripeness.onchange = (event) => {
+                let value = event.target.value;
+
+                let canvas = document.getElementById("draw");
+                let context = canvas.getContext("2d");
+
+                let width = canvas.clientWidth;
+                let height = canvas.clientHeight;
+                let x = (width - 2 * value) / 4;
+                let y = (height - 2 * value) / 4;
+
+                console.log(width, height, x, y);
+                context.fillRect(x, y, value, value);
+            };
+        </script>
+    </body>
+</html>
